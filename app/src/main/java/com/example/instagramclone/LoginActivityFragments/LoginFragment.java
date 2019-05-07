@@ -4,6 +4,7 @@ package com.example.instagramclone.LoginActivityFragments;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,11 @@ import android.widget.Toast;
 import com.example.instagramclone.LoginActivity;
 import com.example.instagramclone.MainActivity;
 import com.example.instagramclone.R;
+import com.google.android.gms.auth.api.credentials.Credential;
+import com.google.android.gms.auth.api.credentials.Credentials;
+import com.google.android.gms.auth.api.credentials.CredentialsClient;
+import com.google.android.gms.auth.api.credentials.CredentialsOptions;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -31,6 +37,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
+import static android.app.Activity.RESULT_OK;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
@@ -42,6 +49,9 @@ public class LoginFragment extends Fragment {
     private EditText e1,e2,e3;
     private FirebaseAuth mAuth;
     private ProgressDialog progress;
+    private CredentialsClient mCredentialsClient;
+
+    private static final int RC_SAVE = 17235;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -59,7 +69,12 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        CredentialsOptions options = new CredentialsOptions.Builder()
+                .forceEnableSaveDialog()
+                .build();
+
         mAuth = FirebaseAuth.getInstance();
+        Credentials.getClient(getContext(), options);
 
         e1 = view.findViewById(R.id.email_idEditText);
         e2 = view.findViewById(R.id.passwordEditText);
@@ -173,6 +188,64 @@ public class LoginFragment extends Fragment {
                         hideProgressDialog();
                     }
                 });
+
+        /*Credential credential = new Credential.Builder(email)
+                .setPassword(password)
+                .build();*/
+
+        //saveCreds(credential);
+
+    }
+
+    private void saveCreds(Credential credential) {
+
+        mCredentialsClient.save(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "SAVE: OK");
+                    Toast.makeText(getContext(), "Credentials saved", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Exception e = task.getException();
+                if (e instanceof ResolvableApiException) {
+                    // Try to resolve the save request. This will prompt the user if
+                    // the credential is new.
+                    ResolvableApiException rae = (ResolvableApiException) e;
+                    try {
+                        rae.startResolutionForResult(getActivity(), RC_SAVE);
+                    } catch (IntentSender.SendIntentException e1) {
+                        // Could not resolve the request
+                        Log.e(TAG, "Failed to send resolution.", e);
+                        Toast.makeText(getContext(), "Save failed", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Request has no resolution
+                    Toast.makeText(getContext(), "Save failed", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // ...
+
+        if (requestCode == RC_SAVE) {
+            if (resultCode == RESULT_OK) {
+                Log.d(TAG, "SAVE: OK");
+                Toast.makeText(getContext(), "Credentials saved", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.e(TAG, "SAVE: Canceled by user");
+            }
+        }
+
+        // ...
 
     }
 
