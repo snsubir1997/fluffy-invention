@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Socio</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_profile">Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="tab_text_1">Login</string>
+    <string name="tab_text_2">Register</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <!--Register Fragment-->
+    <string name="full_name">Full Name</string>
+    <string name="user_name">User Name</string>
+    <string name="email_id">E-mail Id</string>  <!--used in login fragment-->
+    <string name="password">Password</string>   <!--used in login fragment-->
+    <string name="confirm_password">Confirm Password</string>
+    <string name="mobile_number">Mobile Number</string> <!--used in login fragment-->
+    <string name="date_of_birth">Date Of Birth</string>
+    <string name="register">Register</string>
+
+    <!--Register Fragment Errors-->
+    <string name="fields_empty">This field cannot be empty.</string>
+    <string name="invalid_email">Please Enter valid email id.</string>
+    <string name="invalid_mobile_number">Please enter valid mobile number.</string>
+    <string name="invalid_password">Please enter a strong password.</string>
+    <string name="passwords_not_match">Passwords do not match.</string>
+
+    <!--Login Fragment-->
+    <string name="login">Login</string>
+    <string name="Or">OR</string>
+    <string name="forgot_password">Reset Password</string>
+
+    <string name="home_fragment_name">Home</string>
+    <string name="search_fragment_name">Search</string>
+    <string name="profile_fragment_name">Profile</string>
+
+    <string name="sign_in_progress">Logging In.</string>
+    <string name="email_dialog_title">Email Not Verified</string>
+    <string name="email_dialog_message">Do you want to resend the verification email?</string>
+    <string name="email_resend">Resend</string>
+    <string name="new_post">New Post</string>
+    <string name="username_verify">Verifying Your Username</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_reload">Reload</string>
+    <string name="update_details">Update Details</string>
+
+</resources>

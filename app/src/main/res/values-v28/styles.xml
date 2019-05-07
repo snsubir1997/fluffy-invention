@@ -1,0 +1,10 @@
+<resources>
+
+    <!-- Notch Support for Pie and Above -->
+    <style name="ActivityTheme">
+        <item name="android:windowLayoutInDisplayCutoutMode">
+            shortEdges
+        </item>
+    </style>
+
+</resources>
